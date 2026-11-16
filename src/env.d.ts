@@ -3,6 +3,7 @@ declare module 'cloudflare:workers' {
     EMAIL: {
       send(message: {
         to: string | string[]
+        bcc?: string | string[]
         from: string
         replyTo?: string
         subject: string

@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start'
 import { env } from 'cloudflare:workers'
 
 const TO = 'svitek.katarina@gmail.com'
+const BCC = 'svitek.pavel+katarina@gmail.com'
 const FROM = 'Website contact form <noreply@katarinasvitek.com>'
 
 export type ContactInput = {
@@ -55,6 +56,7 @@ export const sendContact = createServerFn({ method: 'POST' })
     try {
       await env.EMAIL.send({
         to: TO,
+        bcc: BCC,
         from: FROM,
         replyTo: data.email,
         subject: `[${label}] New enquiry from ${data.name}`,
