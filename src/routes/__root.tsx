@@ -22,7 +22,7 @@ export const Route = createRootRoute({
       { property: 'og:title', content: TITLE },
       { property: 'og:description', content: DESCRIPTION },
       { property: 'og:url', content: SITE_URL },
-      { property: 'og:image', content: `${SITE_URL}/og-image.jpg` },
+      { property: 'og:image', content: `${SITE_URL}/og-image.jpg?v=2` },
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:image:alt', content: 'Katarina Svitek, freelance GTM marketer' },
@@ -30,7 +30,7 @@ export const Route = createRootRoute({
       { name: 'twitter:card', content: 'summary_large_image' },
       { name: 'twitter:title', content: TITLE },
       { name: 'twitter:description', content: DESCRIPTION },
-      { name: 'twitter:image', content: `${SITE_URL}/og-image.jpg` },
+      { name: 'twitter:image', content: `${SITE_URL}/og-image.jpg?v=2` },
     ],
     links: [
       { rel: 'canonical', href: SITE_URL },
