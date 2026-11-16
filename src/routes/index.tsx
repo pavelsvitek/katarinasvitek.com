@@ -2,6 +2,8 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState } from 'react'
 import type { FormEvent } from 'react'
 
+import { sendContact } from '../server/contact'
+
 export const Route = createFileRoute('/')({ component: Home })
 
 const EMAIL = 'hello@katarinasvitek.com'
@@ -304,19 +306,37 @@ function Why() {
 function Contact() {
   const [interest, setInterest] = useState<'personal' | 'business'>('personal')
 
-  function onSubmit(event: FormEvent<HTMLFormElement>) {
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+  const [message, setMessage] = useState('')
+
+  async function onSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const get = (key: string) => String(data.get(key) ?? '').trim()
-    const subject = `${interest === 'personal' ? 'Personal' : 'Business'} GTM — ${get('name')}`
-    const body = [
-      get('goal'),
-      '',
-      `Name: ${get('name')}`,
-      `Email: ${get('email')}`,
-      `Company or role: ${get('company')}`,
-    ].join('\n')
-    window.location.href = `mailto:${EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    const form = event.currentTarget
+    const data = new FormData(form)
+    const get = (key: string) => String(data.get(key) ?? '')
+    setStatus('sending')
+    try {
+      const result = await sendContact({
+        data: {
+          name: get('name'),
+          email: get('email'),
+          interest,
+          company: get('company'),
+          goal: get('goal'),
+          website: get('website'),
+        },
+      })
+      if (result.ok) {
+        form.reset()
+        setStatus('sent')
+      } else {
+        setMessage(result.error)
+        setStatus('error')
+      }
+    } catch {
+      setMessage('Could not send your message. Please email me directly instead.')
+      setStatus('error')
+    }
   }
 
   return (
@@ -383,10 +403,26 @@ function Contact() {
             placeholder="The goal, the number that matters, the timeline."
           />
         </label>
-        <div className="field--wide">
-          <button className="btn btn--pill btn--submit" type="submit">
-            Send message →
+        <input
+          className="hp"
+          name="website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+        />
+        <div className="field--wide form__actions">
+          <button
+            className="btn btn--pill btn--submit"
+            type="submit"
+            disabled={status === 'sending'}
+          >
+            {status === 'sending' ? 'Sending…' : 'Send message →'}
           </button>
+          <p className="form__status" role="status" aria-live="polite">
+            {status === 'sent' && 'Thank you! I’ll get back to you soon.'}
+            {status === 'error' && message}
+          </p>
         </div>
       </form>
     </section>
