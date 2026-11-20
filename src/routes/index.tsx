@@ -127,7 +127,7 @@ function Sidebar() {
           </li>
           <li>
             <Icon name="globe" />
-            English · German
+            English · German · Slovak · Hungarian
           </li>
           <li>
             <Icon name="mail" />
