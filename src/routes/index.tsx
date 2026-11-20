@@ -392,8 +392,12 @@ function Contact() {
         </fieldset>
 
         <label className="field field--wide">
-          <span>Company or role</span>
-          <input name="company" type="text" placeholder="e.g. Head of Growth, Acme" />
+          <span>{interest === 'personal' ? 'Role' : 'Company or role'}</span>
+          <input
+            name="company"
+            type="text"
+            placeholder={interest === 'personal' ? 'e.g. Head of Growth' : 'e.g. Head of Growth, Acme'}
+          />
         </label>
         <label className="field field--wide">
           <span>What do you want to achieve?</span>

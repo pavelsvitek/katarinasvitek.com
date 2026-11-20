@@ -48,7 +48,7 @@ export const sendContact = createServerFn({ method: 'POST' })
       `Name: ${data.name}`,
       `Email: ${data.email}`,
       `Interested in: ${label}`,
-      `Company or role: ${data.company || '-'}`,
+      `${data.interest === 'business' ? 'Company or role' : 'Role'}: ${data.company || '-'}`,
       '',
       data.goal || '(no message)',
     ]
