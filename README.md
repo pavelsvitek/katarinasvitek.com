@@ -11,7 +11,7 @@ You don't need to write code yourself. You describe what you want in plain Engli
 3. Get the project onto your computer. In a terminal:
 
    ```bash
-   git clone git@github.com:pavelsvitek/katarinasvitek.com.git
+   git clone git@github.com:katarinasvitek/katarinasvitek.com.git
    cd katarinasvitek.com
    pnpm install
    ```
